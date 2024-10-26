@@ -10,13 +10,17 @@ import PrimaryBtn from "../../Components/PrimaryBtn.vue";
 import { useForm } from '@inertiajs/vue3';
 
 
+const props = defineProps({
+    listing:Object
+})
+
 const form = useForm({
-    title: null,
-    email: null,
-    tags: null,
-    link: null,
-    desc: null,
-    image: null,
+    title: props.listing.title,
+    email: props.listing.email,
+    tags: props.listing.tags,
+    link: props.listing.link,
+    desc: props.listing.desc,
+    image: props.listing.null
 })
 
 
@@ -25,15 +29,14 @@ const form = useForm({
 
 <template>
     <div>
-        <Head title="- New Listing"/>
+        <Head title="- Edit Listing"/>
 
         <Container>
-            <Title>Create a New Listing</Title>
-
+            <Title>Edit Listing</Title>
 
             <ErrorMessages :errors="form.errors"/>
 
-            <form @submit.prevent="form.post(route('listings.store'))" class="grid grid-cols-2 gap-6">
+            <form @submit.prevent="form.put(route('listings.update',listing.id ))" class="grid grid-cols-2 gap-6">
 
                 <div class="space-y-6">
 
@@ -51,12 +54,12 @@ const form = useForm({
 
                     <InputField label="External Link" icon="up-right-from-square" placeholder="https://example.com" v-model="form.link"/>
 
-                    <ImageUpload @image="(e) => (form.image = e)"/>
+                    <ImageUpload :listingImage="listing.image" @image="(e) => (form.image = e)"/>
                 </div>
 
 
                 <div>
-                    <PrimaryBtn :disabled="form.processing">Create</PrimaryBtn>
+                    <PrimaryBtn :disabled="form.processing">Update</PrimaryBtn>
                 </div>
             </form>
 

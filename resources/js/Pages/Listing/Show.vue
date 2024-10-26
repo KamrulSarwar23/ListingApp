@@ -25,8 +25,12 @@ defineProps({
                     <div class="flex items-center justify-between mb-2">
                         <p class="text-slate-400 w-full border-b">Listing Details</p>
 
-                        <div>
-                            Edit and Delete
+                        <div class="pl-4 flex items-center gap-4">
+
+                           <Link class="bg-green-500 rounded-md text-white px-6 py-2 hover:outline outline-green-500 outline-offset-2" :href="route('listings.edit', listing.id )">Edit</Link>
+
+                           <!-- <Link class="bg-red-500 rounded-md text-white px-6 py-2 hover:outline outline-red-500 outline-offset-2" :href="route('listings.edit', listing.id )">Delete</Link> -->
+
                         </div>
                     </div>
 

@@ -107,7 +107,10 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing)
     {
-        //
+        return Inertia::render('Listing/Edit', [
+            'listing' => $listing,
+           
+        ]);
     }
 
     /**
@@ -115,7 +118,28 @@ class ListingController extends Controller
      */
     public function update(Request $request, Listing $listing)
     {
-        //
+        $fields = $request->validate([
+
+            'title' => ['required', 'max:255'],
+            'email' => ['nullable', 'email'],
+            'tags' => ['nullable', 'string'],
+            'link' => ['nullable', 'url'],
+            'desc' => ['required'],
+            'image' => ['nullable', 'file', 'max:3072', 'mimes:jpeg,jpg,png,webp']
+        ]);
+
+
+        if ($request->hasFile('image')) {
+           $fields['image'] = Storage::disk('public')->put('images/listing', $request->image);
+        }
+
+
+        $fields['tags'] = implode(',', array_unique(array_filter(array_map('trim', explode(',', $request->tags)))));
+
+
+        $request->user()->listings()->update($fields);
+
+        return redirect()->route('dashboard')->with('status', 'Listing Created Successfully');
     }
 
     /**
@@ -123,6 +147,6 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
-        //
+     
     }
 }
