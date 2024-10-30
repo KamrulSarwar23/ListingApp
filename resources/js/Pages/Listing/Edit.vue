@@ -20,7 +20,8 @@ const form = useForm({
     tags: props.listing.tags,
     link: props.listing.link,
     desc: props.listing.desc,
-    image: props.listing.null
+    image: null,
+   _method: 'PUT'
 })
 
 
@@ -36,7 +37,7 @@ const form = useForm({
 
             <ErrorMessages :errors="form.errors"/>
 
-            <form @submit.prevent="form.put(route('listings.update',listing.id ))" class="grid grid-cols-2 gap-6">
+            <form @submit.prevent="form.post(route('listings.update',listing.id ))" class="grid grid-cols-2 gap-6">
 
                 <div class="space-y-6">
 

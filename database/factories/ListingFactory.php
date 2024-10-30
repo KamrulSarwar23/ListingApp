@@ -17,7 +17,7 @@ class ListingFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->randomElement([1, 2]),
+            'user_id' => fake()->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
             'title' => fake()->sentence(10),
             'desc' => fake()->paragraph(10),
             'email' => fake()->email(),

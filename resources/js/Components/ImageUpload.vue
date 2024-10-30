@@ -26,7 +26,7 @@ const revertImageSelect = (e) => {
     showRevertBtn.value = false;
     preview.value = currentImage;
     oversizedImage.value = false
- 
+    emit('image', null)
 }
 
 
