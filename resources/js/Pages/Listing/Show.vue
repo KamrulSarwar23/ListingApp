@@ -17,6 +17,15 @@ const deleteListing = (id) => {
  
 }
 
+const toggleApprove = () => {
+
+let msg = props.listing.approved ? 'Disapproved This Listing' : 'Approve This Listing'
+
+if (confirm(msg)) {
+  router.put(route('listing.approved', props.listing.id));
+
+}   
+}
 
 </script>
 
@@ -24,6 +33,14 @@ const deleteListing = (id) => {
     <div>
 
         <Head title="- Listing Details"/>
+
+        <div v-if="$page.props.auth.user.role === 'admin'" class="bg-slate-800 text-white mb-6 p-6 rounded-md font-medium flex items-center justify-between">
+            <p>This listing is {{listing.approved ? 'approved' : 'Not Approved'}}</p>
+
+            <button @click.prevent="toggleApprove" class="bg-slate-600 px-3 py-1 rounded-md">
+                {{ listing.approved ? 'Disapprove it' : 'Approve it'}}
+            </button>
+        </div>
 
         <Container class="flex gap-4">
             <div class="w-1/4 rounded-md overflow-hidden">

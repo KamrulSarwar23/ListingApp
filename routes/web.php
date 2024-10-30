@@ -39,9 +39,11 @@ Route::middleware(['auth', 'verified', Admin::class])
 
     Route::put('/admin/{user}/role',  'role')->name('admin.role');
 
-    Route::get('/user/{id}',  'show')->name('admin.show');
+    Route::get('/user/{user}',  'show')->name('admin.show');
 
     Route::put('/admin/{id}/approved',  'approved')->name('admin.approved');
+
+    Route::put('/listing/{listing}/approved',  'listingApproved')->name('listing.approved');
 
 });
 

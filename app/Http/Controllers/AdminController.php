@@ -6,6 +6,7 @@ use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class AdminController extends Controller
@@ -25,6 +26,9 @@ class AdminController extends Controller
 
     public function role(User $user, Request $request){
 
+
+        Gate::authorize('modifyRole',$user);
+
         $request->validate([
             'role' => 'string|required'
         ]);
@@ -37,28 +41,35 @@ class AdminController extends Controller
     }
 
 
-    public function show(string $id){
+    public function show(User $user){
 
     
-        $listings = Listing::with('user')->where('user_id', $id)->paginate(5);
+        // $listings = Listing::with('user')->where('user_id', $id)->paginate(5);
+
+        $listings = $user->listings()
+        ->filter(request(['search', 'disapproved']))
+        ->latest()
+        ->paginate(5)
+        ->withQueryString();
 
         return Inertia::render('Admin/Show', [
             'listings' => $listings,
-            'status' => session('status')
+            'user' => $user,
+            'status' => session('status'),
         ]);
     }
 
 
-    public function approved(String $id, Request $request){
+    public function listingApproved(Listing $listing){
+        
+        Gate::authorize('approve', $listing);
 
-        $request->validate([
-            'approved' => 'string|required'
-        ]);
 
-        Listing::where('id', $id)->update([
-            'approved' => $request->approved
-        ]);
+        $listing->update([ 'approved' => !$listing->approved]);
 
-        return redirect()->back()->with('status', "Listing Status Changed Successfully");
+        $msg = $listing->approved ? 'Approved' : 'Disaprroved';
+
+        return redirect()->back()->with('status', "Listing {$msg} Successfully");
+
     }
 }

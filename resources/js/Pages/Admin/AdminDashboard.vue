@@ -58,6 +58,7 @@ const toggleRole = (e) => {
 
     <div class="flex items-center justify-between">
       <div class="w-1/10 mb-5">
+
         <form @submit.prevent="search">
           <InputField
             type="search"
@@ -67,6 +68,7 @@ const toggleRole = (e) => {
             v-model="form.search"
           />
         </form>
+        
       </div>
 
       <div class="mb-5 mr-10">
@@ -127,21 +129,24 @@ const toggleRole = (e) => {
 
           <td class="w-1/6 py-5 px-3">
             <div class="flex items-center gap-6">
-              <div class="flex items-center gap-1">
-                <p>{{ user.listings.filter((l) => l.approved).length }}</p>
 
+              <div class="flex items-center gap-1">
+
+                <p>{{ user.listings.filter((l) => l.approved).length }}</p>
                 <i class="fa-solid fa-circle-check text-green-500"></i>
+
               </div>
 
               <div class="flex items-center gap-1">
                 <p>{{ user.listings.filter((l) => !l.approved).length }}</p>
                 <i class="fa-solid fa-xmark text-red-500"></i>
               </div>
+              
             </div>
           </td>
 
           <td class="w-1/6 py-5 px-3">
-            <Link :href="route('admin.show', user.id)">View</Link>
+            <Link class="fa-solid fa-up-right-from-square px-3 text-indigo-400" :href="route('admin.show', user.id)"></Link>
           </td>
         </tr>
       </tbody>
